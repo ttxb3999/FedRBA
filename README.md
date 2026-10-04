@@ -112,3 +112,23 @@ The script implements Spearman/JSD in pure numpy (no scipy) and reads the `*_deb
 - **Reproducibility / repository hygiene:** every run writes large `save/` trees and `*.log` files; these are git-ignored (`save/`, `logs/`, `logs_*/`, `*.log`, `*.pkl`, `data/`). Only source, scripts, analysis, `requirements.txt`, and this README are tracked. Re-run any `scripts/run_*.sh` (override the interpreter with `PYTHON_BIN=...`) to rebuild results locally.
 - `requirements.txt` lists the minimal runtime dependencies (validated on the authors' RTX 5060 / RTX 3090, Python 3.11). Install the PyTorch wheel matching your CUDA version first; `environment_server.txt` is the full `pip freeze` of the paper's GPU server.
 - The allocator's flat-likelihood guard (skips a client's EMA update when its softmax log-likelihood range ≤ 1e-6) and the per-client capacity cap on allocated budgets are implemented but not described in the paper; they only affect numerical edge cases and never change the reported numbers.
+
+## Matched IFAL baseline (Figure 2)
+
+The IFAL baseline used in Figure 2 is reproduced from the official IFAL repository, patched in `baselines/IFAL/` to support the same long-tailed non-IID clients (`cifar10_lt` / `cifar100_lt`) and heterogeneous annotation noise (`--noise_mode hetero`) as FedRBA. The patch (long-tailed datasets, the `annotation_noise.py` port, and the `query_strategies/__init__.py` wiring) is kept inside `baselines/IFAL` so the FedRBA tree stays self-contained; run it with `baselines/IFAL/run_fig2_ifal.sh`.
+
+## Citation
+
+If you use FedRBA in your research, please cite:
+
+```bibtex
+@inproceedings{zheng2026fedrba,
+  title     = {FedRBA: A Coverage-Preserving Budget Allocation Method via
+               Online Client Reliability Estimation for Federated Active Learning},
+  author    = {Zheng, Shitao and Mo, Xinyue and Li, Huan},
+  booktitle = {[VENUE -- to be filled after acceptance]},
+  year      = {2026}
+}
+```
+
+> † Shitao Zheng and Xinyue Mo contributed equally. \* Xinyue Mo and Huan Li are corresponding authors. Replace `booktitle` with the accepted venue (and add `arxiv`/`pages`/`doi` as available) once the paper is accepted.

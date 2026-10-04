@@ -11,7 +11,8 @@ per-client / per-stage CSVs that this script aggregates:
 
 Metrics reproduced (targets quoted from the paper):
   (a) Spearman rho(updated_reliability, true_reliability_debug)  -> 0.893
-  (b) JSD(allocated_budget || true_reliability) per stage        -> 0.0875 / 0.0916
+  (b) JSD-to-uniform: per-stage JSD between the allocated-budget  -> 0.0875 / 0.0916
+      distribution and a uniform reference (1/N per client)
   (c) total corrupted queries  (FedRBA vs uniform baseline)      -> 1280 -> 1224
   (d) anchor MAE(updated_reliability, true_reliability_debug)    -> 0.215 -> 0.133
 
@@ -169,27 +170,31 @@ def main():
     else:
         print("[a] Spearman: reliability_soft_estimation.csv not found")
 
-    # (b) JSD(allocated_budget || true_reliability) per stage
-    if rel is not None and bud is not None:
-        stages = sorted(rel["current_ratio"].unique())
+    # (b) JSD-to-uniform (paper Sec. 4.4): per-stage JSD between the
+    #     allocated-budget distribution and a uniform reference (1/N per client).
+    #     The paper reports this as "JSD-to-uniform changes only from 0.0875
+    #     (uniform allocation) to 0.0916 (FedRBA)" -- i.e. the coverage-preserving
+    #     constraints keep the allocation close to broad client participation.
+    if bud is not None:
+        n_clients = int(bud["user_idx"].nunique())
+        uniform_ref = np.ones(n_clients) / n_clients
+        stages = sorted(bud["current_ratio"].unique())
         jsds = []
         for s in stages:
-            r = rel[rel["current_ratio"] == s]
             b = bud[bud["current_ratio"] == s]
-            if len(r) == 0 or len(b) == 0:
+            if len(b) == 0:
                 continue
-            true_rel = r["true_reliability_debug"].values.astype(float)
             alloc = b["allocated_budget"].values.astype(float)
-            if np.nanmax(true_rel) >= 0 and alloc.sum() > 0 and true_rel.sum() > 0:
-                jsds.append(_jsd(alloc, true_rel))
+            if alloc.sum() > 0:
+                jsds.append(_jsd(alloc, uniform_ref))
         if jsds:
             jsds = np.array(jsds)
             print(
-                f"[b] JSD(alloc || true_reliability): mean={jsds.mean():.4f} "
+                f"[b] JSD-to-uniform (alloc || uniform): mean={jsds.mean():.4f} "
                 f"min={jsds.min():.4f} max={jsds.max():.4f} (n_stages={len(jsds)})"
             )
     else:
-        print("[b] JSD: reliability/budget CSVs not found")
+        print("[b] JSD-to-uniform: budget_allocation.csv not found")
 
     # (c) corrupted queries
     total = _summary_noise_total(noise)
