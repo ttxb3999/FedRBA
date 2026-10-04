@@ -1,6 +1,6 @@
 ﻿$ErrorActionPreference = "Stop"
 
-$ROOT = "D:\research\FairFAL_lambda1_ablation"
+$ROOT = Split-Path -Parent $PSScriptRoot
 $LOGDIR = Join-Path $ROOT "control_logs_seed34"
 
 Set-Location $ROOT
