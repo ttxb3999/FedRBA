@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+data/
+save/
+logs/
+*.log
+*.zip
+*.tar.gz
+*.rar
+*.pkl
+.DS_Store
