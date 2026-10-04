@@ -55,7 +55,7 @@ python main.py --gpu 0 --seed 2 --custom_name c10_uniform_seed2 \
   --budget_mode fixed
 ```
 
-Repeat with `--seed 2 3 4 5 6`. For CIFAR100-LT use `--dataset cifar100_lt --num_classes 100`; the effective per-cycle budget is exactly matched (B = 790) across methods.
+Repeat with `--seed 2 3 4 5 6`. For CIFAR100-LT use `scripts/run_cifar100_lt_table1.sh`, which runs both arms (FedRBA as `c100_soft790_seedN`, uniform as `c100_softfix_seedN`, matching the original run names) for seeds 2–6. The raw nominal 5% count is 795, but equal client-wise integer allocation yields 79 per client, so every method uses the exactly matched effective budget B = 790; no extra flag is needed.
 
 ### Table 2 — component ablation (seeds 2–4)
 
