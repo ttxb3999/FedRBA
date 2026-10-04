@@ -9,3 +9,4 @@ logs/
 *.rar
 *.pkl
 .DS_Store
+logs_c100_r300/
