@@ -80,8 +80,8 @@ def args_parser():
     parser.add_argument(
         '--reliability_ema_beta',
         type=float,
-        default=0.8,
-        help='EMA coefficient for Estimated-R reliability updates'
+        default=0.5,
+        help='EMA coefficient for Estimated-R reliability updates (paper: beta = 0.5)'
     )
     parser.add_argument(
         '--reliability_min_confident',
