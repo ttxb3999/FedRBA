@@ -3,10 +3,16 @@ __pycache__/
 data/
 save/
 logs/
+logs_*/
+control_logs_*/
+sota_logs/
 *.log
 *.zip
 *.tar.gz
 *.rar
 *.pkl
+*.checkpoint
+cifar100_*.csv
+cifar100_*.png
+cifar100_*.pdf
 .DS_Store
-logs_c100_r300/

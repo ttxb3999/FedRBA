@@ -58,7 +58,7 @@ def build_job(method, dataset, seed, smoke):
         "--dd_beta", "0.1",
         "--num_users", "10",
         "--frac", "1.0",
-        "--rounds", "1" if smoke else "100",
+        "--rounds", "1" if smoke else "300",
         "--local_ep", "1" if smoke else "5",
         "--reset", "random",
         "--query_ratio", "0.05",

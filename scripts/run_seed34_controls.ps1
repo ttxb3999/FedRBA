@@ -8,7 +8,7 @@ New-Item -ItemType Directory -Force -Path $LOGDIR | Out-Null
 
 function SeedBase($seed) {
     return Join-Path $ROOT `
-        "save\fedavg\dict_users_cifar10_lt0.05\cnn4conv_num10_C1.0_r100_le5_rquery0.050\dir_balance_0.1\seed$seed\reset_random\qmode_global\fairfal"
+        "save\fedavg\dict_users_cifar10_lt0.05\cnn4conv_num10_C1.0_r300_le5_rquery0.050\dir_balance_0.1\seed$seed\reset_random\qmode_global\fairfal"
 }
 
 function CheckSoftStart($seed) {
@@ -78,7 +78,7 @@ function RunExp($seed, $customName, $budgetMode, $logName) {
         "--num_users", "10",
         "--frac", "1.0",
         "--num_classes", "10",
-        "--rounds", "100",
+        "--rounds", "300",
         "--local_ep", "5",
         "--reset", "random",
         "--query_ratio", "0.05",
@@ -152,7 +152,7 @@ function GetAccuracies($log) {
 
     $matches = Select-String `
         -Path $log `
-        -Pattern "Round\s+100,.*Test accuracy:\s*([0-9.]+)"
+        -Pattern "Round\s+300,.*Test accuracy:\s*([0-9.]+)"
 
     foreach ($m in $matches) {
         $result += [double]$m.Matches[0].Groups[1].Value
@@ -200,7 +200,7 @@ function CheckTrio($seed) {
         $oracle.Count -ne 9 -or
         $shuffle.Count -ne 9
     ) {
-        throw "Seed ${seed}: expected 9 Round-100 checkpoints in each run."
+        throw "Seed ${seed}: expected 9 Round-300 checkpoints in each run."
     }
 
     if (

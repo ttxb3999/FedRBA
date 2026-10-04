@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 $Repo = Split-Path -Parent $PSScriptRoot
-$CacheBase = Join-Path $Repo "save\fedavg\dict_users_cifar10_lt0.05\cnn4conv_num10_C1.0_r100_le5_rquery0.050\dir_balance_0.1\seed2\reset_random\qmode_global\fairfal"
+$CacheBase = Join-Path $Repo "save\fedavg\dict_users_cifar10_lt0.05\cnn4conv_num10_C1.0_r300_le5_rquery0.050\dir_balance_0.1\seed2\reset_random\qmode_global\fairfal"
 $Source = Join-Path $CacheBase "c10_lambda1_seed2"
 
 $Required = @(
