@@ -16,7 +16,7 @@ def args_parser():
     parser.add_argument('--save_dir', type=str, default='.', help='when to start saving models')    
     
     # federated learning arguments
-    parser.add_argument('--rounds', type=int, default=100, help="rounds of training")
+    parser.add_argument('--rounds', type=int, default=300, help="rounds of training (300 per acquisition stage, matching paper Sec. 4.1)")
     parser.add_argument('--num_users', type=int, default=10, help="number of users: K")
     parser.add_argument('--frac', type=float, default=1.0, help="the fraction of clients: C")
     parser.add_argument('--local_ep', type=int, default=5, help="the number of local epochs: E")
